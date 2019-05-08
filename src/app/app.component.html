@@ -12,18 +12,20 @@
     </ul>
 </nav>
 
-
 <div class="container">
-    <div>
+    <div class="mt-3 mb-3">
       <h1 class="h2">Productos</h1>
     </div>
   <div class="row">
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-3" 
+    *ngFor="let products of productsArray"
+    (click)="openEdit(products)"
+    [class.active]="products == selectedProducts">
       <div class="card shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <h5 class="card-title">Name</h5>
-          <p class="card-text category">Category</p>
-          <p class="price">$4.99 USD</p>
+          <h5 class="card-title">{{products.name}}</h5>
+          <p class="card-text category">{{products.category}}</p>
+          <p class="price right-text">{{products.price}}</p>
         </div>
       </div>
     </div>
@@ -35,19 +37,30 @@
       <div class="col-12 col-md-6">
           <div class="card shadow p-3 mb-5 bg-white rounded">
             <div class="card-body">
-              <h3 class="card-title">Add Product</h3>
+              <h3 class="card-title">{{selectedProducts.id == 0 ? "Add new Product" : "Update an Product"}}</h3>
               <div class="form-group">
                 <label for="">Name</label>
-                <input type="text" class="form-control"  aria-describedby="" placeholder="">
+                <input type="text" [(ngModel)]="selectedProducts.name" class="form-control"  aria-describedby="" placeholder="">
               </div>
               <div class="form-group">
-                <label for="">Description</label>
-                <textarea class="form-control" rows="3"></textarea>
+                <label for="">Category</label>
+                <input type="text" [(ngModel)]="selectedProducts.category" class="form-control"  aria-describedby="" placeholder="">
               </div>
-              <div class="form-group">
+              <div class="form-group ">
                 <label for="">Price</label>
-                <input type="text" class="form-control"  aria-describedby="" placeholder="">
+                <input type="text" [(ngModel)]="selectedProducts.price" class="form-control"  aria-describedby="" placeholder="">
               </div>
+              <button (click)="addEdit()" class="btn btn-primary">
+                  Submit
+                </button>
+
+                <button 
+                *ngIf="selectedProducts.id !== 0"
+                class="btn btn-danger"
+                (click)="delete()"
+                >
+                DELETE
+              </button>
               
             </div>
           </div>
